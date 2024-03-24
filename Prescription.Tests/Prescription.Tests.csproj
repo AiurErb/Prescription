@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Prescription.DAL\Prescription.DAL.csproj" />
+    <ProjectReference Include="..\Prescription.Models\Prescription.Models.csproj" />
   </ItemGroup>
 
 </Project>
