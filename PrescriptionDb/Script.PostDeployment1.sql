@@ -9,4 +9,11 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
+IF NOT EXISTS (SELECT 1 FROM [dbo].[DoctorsAddress])
+BEGIN
+    INSERT INTO [dbo].DoctorsAddress
+    ([Street],[Haus], [ZIP],[DoctorId],[Current])
+    VALUES
+    ('BuchheimerWeg','23a','51090',1,1)
+END;
 

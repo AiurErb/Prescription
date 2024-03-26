@@ -1,16 +1,14 @@
-﻿using Prescription.DAL.Repos.Base;
-using Prescription.DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
+﻿using Prescription.DAL.Entities;
+
 
 namespace Prescription.DAL.Repos
 {
-    public class InsuranceRepo: BaseRepo<Insurance>
+    public class InsuranceRepo : RepoBase<Insurance>
     {
-        public InsuranceRepo(SqlConnection conn) : base(conn) { }
+        public InsuranceRepo()
+        {
+            ConnectToDb connectToDb = new ConnectToDb();
+            _connection = connectToDb.GetConnection();
+        }
     }
 }
