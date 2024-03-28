@@ -6,7 +6,7 @@ namespace Prescription.DAL.Repos
 {
     public class RepoBase<T> where T : class
     {
-        protected SqlConnection _connection;
+        protected SqlConnection _connection;        
 
         public void Delete(T entity)
         {
@@ -18,17 +18,17 @@ namespace Prescription.DAL.Repos
             return _connection.GetAll<T>();
         }
 
-        public T? GetOne(long id)
+        public virtual T? GetOne(long id)
         {
             return _connection.Get<T>(id);
         }
 
-        public long Insert(T entity)
+        public virtual long Insert(T entity)
         {
-            return _connection.Insert<T>(entity);
+            return _connection.Insert<T>(entity);            
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             _connection.Update<T>(entity);
         }

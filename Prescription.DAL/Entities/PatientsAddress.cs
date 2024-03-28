@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 
 namespace Prescription.DAL.Entities
 {
-    [Table("DoctorsAddress")]
-    public class DoctorsAddress : IAddress
+    [Table("PatientsAddress")]
+    public class PatientsAddress : IAddress
     {
         [Key]
         public long Id { get; set; }
@@ -13,8 +13,10 @@ namespace Prescription.DAL.Entities
         public string Haus { get; set; }
         public string ZIP { get; set; }
         public string City { get; set; }
-        public long DoctorId { get; set; }
+        public long PatientId { get; set; }
         public bool Current { get; set; }
+        [Computed]
+        public Patient Patient { get; set; }
 
     }
 }

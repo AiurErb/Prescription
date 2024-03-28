@@ -9,6 +9,13 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
+IF NOT EXISTS (SELECT 1 FROM dbo.Doctor)
+BEGIN
+    INSERT INTO dbo.Doctor
+    ([Name],[LANR])
+    VALUES ('Ulrich Peters', '123456789'),
+    ('Sibil Shepard', '987654321')
+END;
 IF NOT EXISTS (SELECT 1 FROM [dbo].[DoctorsAddress])
 BEGIN
     INSERT INTO [dbo].DoctorsAddress
@@ -16,4 +23,17 @@ BEGIN
     VALUES
     ('BuchheimerWeg','23a','51090',1,1)
 END;
-
+IF NOT EXISTS (SELECT 1 FROM dbo.Patient)
+BEGIN
+    INSERT INTO dbo.Patient
+    ([Name],[InsuranceNumber],[Birthday])
+    VALUES ('Robert Höpgen', '345S34589', '1969-05-13'),
+    ('Annelene Berke','5634J45','1950-09-21')
+END;
+IF NOT EXISTS (SELECT 1 FROM dbo.PatientsAddress)
+BEGIN
+    INSERT INTO PatientsAddress
+    ([Street],[Haus],[ZIP],[City],[PatientId],[Current])
+    VALUES
+    ('Mülheimerstr.','12','51104','Köln',1,1)
+END
