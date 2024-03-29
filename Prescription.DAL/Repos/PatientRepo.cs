@@ -20,10 +20,11 @@ namespace Prescription.DAL.Repos
         public override Patient GetOne(long id)
         {
             Patient patient = base.GetOne(id);
-            patient.Addresses = GetDepend<PatientsAddress>(patient.Id, "PatientId");
-            //string sql = "SELECT * FROM dbo.PatientsAddress WHERE PatientId=@id";
-            //patient.Addresses = 
-            //    _connection.Query<PatientsAddress>(sql, new {id=id}).AsList();
+            
+            //patient.Addresses = base.GetDepend<PatientsAddress>(patient.Id, "PatientId");
+            string sql = "SELECT * FROM dbo.PatientsAddress WHERE PatientId=@id";
+            patient.Addresses =
+                _connection.Query<PatientsAddress>(sql, new { id = id }).AsList();
             return patient;
         }
         public override long Insert(Patient patient)

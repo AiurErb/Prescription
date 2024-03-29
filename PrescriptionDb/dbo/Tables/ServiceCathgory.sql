@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[ServiceCathgory]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
+	[Name] NVARCHAR(250),
+	[Type] NVARCHAR(50)
+)
