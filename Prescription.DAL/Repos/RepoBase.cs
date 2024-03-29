@@ -1,6 +1,8 @@
-﻿using Dapper.Contrib.Extensions;
+﻿using Dapper;
+using Dapper.Contrib.Extensions;
 using Microsoft.Data.SqlClient;
 using Prescription.DAL.Entities;
+using System.Transactions;
 
 namespace Prescription.DAL.Repos
 {
@@ -31,6 +33,11 @@ namespace Prescription.DAL.Repos
         public virtual void Update(T entity)
         {
             _connection.Update<T>(entity);
+        }
+        public virtual List<U> GetDepend<U>(long id, string foreignKey) where U: class
+        {     
+            string sql = $"SELECT * FROM {nameof(U)} WHERE {foreignKey} = @id";
+            return _connection.Query<U>(sql, new { id = id }).ToList();
         }
     }
 }
