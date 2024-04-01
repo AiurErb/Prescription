@@ -14,5 +14,12 @@ namespace Prescription.Tests
             Assert.NotNull(onePrescript.Doctor);
             Assert.NotNull(onePrescript.Patient);
         }
+        [Fact]
+        public void GetOnePrescriptWithServices()
+        {
+            PrescriptRepo prescript = new();
+            Prescript onePrescript = prescript.GetOne(1);
+            Assert.Equal(2, onePrescript.Services.Count());
+        }
     }
 }

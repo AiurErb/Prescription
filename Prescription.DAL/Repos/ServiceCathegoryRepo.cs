@@ -15,12 +15,4 @@ namespace Prescription.DAL.Repos
             _connection = connectToDb.GetConnection();
         }
     }
-    public class ServiceRepo: RepoBase<Service>
-    {
-        public ServiceRepo()
-        {
-            ConnectToDb connectToDb = new ConnectToDb();
-            _connection = connectToDb.GetConnection();
-        }
-    }
 }

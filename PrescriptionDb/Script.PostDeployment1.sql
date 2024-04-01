@@ -15,12 +15,14 @@ DELETE FROM dbo.DoctorsAddress;
 DELETE FROM dbo.Doctor;
 DELETE FROM dbo.Patient;
 DELETE FROM dbo.Insurance;
+DELETE FROM dbo.[Service];
 DBCC CHECKIDENT('dbo.Patient',RESEED,0);
 DBCC CHECKIDENT('dbo.Doctor',RESEED,0);
 DBCC CHECKIDENT('dbo.Insurance',RESEED,0);
 DBCC CHECKIDENT('dbo.PatientsAddress',RESEED,0);
 DBCC CHECKIDENT('dbo.DoctorsAddress',RESEED,0)
 DBCC CHECKIDENT('dbo.Prescript',RESEED,0);
+DBCC CHECKIDENT('dbo.Service',RESEED,0);
 
 IF NOT EXISTS (SELECT 1 FROM dbo.Insurance)
 BEGIN
@@ -76,7 +78,8 @@ BEGIN
     ('Kompressionsverbände anlegen'),
     ('Kompressionsverbande abnehmen'),
     ('Stützende und stabilisierende Verbände, Art')
-END
+END;
+
 IF NOT EXISTS (SELECT 1 FROM dbo.Prescript)
 BEGIN
     INSERT INTO dbo.Prescript
@@ -84,4 +87,15 @@ BEGIN
     VALUES
     ('2023-03-15',1,1,1,'2023-03-20','2023-04-20'),
     ('2023-03-30',2,2,2,'2023-04-01','2023-04-30')
-END
+END;
+
+IF NOT EXISTS (SELECT 1 FROM dbo.[Service])
+BEGIN
+    INSERT INTO dbo.[Service]
+    ([Description],[CathegoryId],[Frequence],[Start],[End],[ParentId],[ParentType])
+    VALUES
+    ('Beschreibung 1',1,'1t1w1m','2023-04-01','2023-04-30',1,1),
+    ('Beschreibung 2',4,'2t1w1m','2023-04-01','2023-04-30',1,1),
+    ('',5,'1t1w1m','2023-04-01','2023-04-20',2,1),
+    ('Beschreibung 4',6,'2t1w1m','2023-04-20','2023-04-30',2,1)
+END;
