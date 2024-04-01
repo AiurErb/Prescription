@@ -19,8 +19,8 @@
             <div class="card bg-light">
                 <div class="card-body">
                     <div class=" row">
-                        <div class="col-2">@p.Date</div>
-                        <div class="col-3">@p.Patient.Name</div>
+                        <div class="col-2">@p.Date.ToString("dd.MM.yy")</div>
+                        <div class="col-3"><b>@p.Patient.Name</b></div>
                         <div class="col-3">@p.Insurance.Name</div>
                         <div class="col-3">@p.Doctor.Name</div>
                         <div class="col-1">
@@ -33,6 +33,13 @@
                 </div>
                 <div class="card-footer">
                     <small>
+                        <div class="row">
+                            <div class=" col-1"></div>
+                            <div class="col-3"><b>Leistungen</b></div>
+                            <div class="col-2">Häufigkeit</div>
+                            <div class="col-2">Anfang</div>
+                            <div class="col-2">Ende</div>
+                        </div>
                         @foreach (Service s in p.Services)
                         {
                             <div class="row">
@@ -41,8 +48,8 @@
                                 </div>
                                 <div class="col-3">@s.Cathegory.Name</div>
                                 <div class="col-2">@s.Frequence</div>
-                                <div class="col-2">@s.Start</div>
-                                <div class="col-2">@s.End</div>
+                                <div class="col-2">@s.Start.ToString("dd.MM.yy")</div>
+                                <div class="col-2">@s.End.ToString("dd.MM.yy")</div>
                             </div>
                         }
                     </small>
