@@ -1,0 +1,28 @@
+﻿@using Prescriptions.MVC.Models.Prescript;
+@using Prescription.DAL.Entities;
+
+@model IndexOfPrescriptModel
+@{
+}
+<h2>Verordnungen</h2>
+<div class="container-fluid">
+    <div class="table">
+        <div class=" row">
+            <div class="col-2">Datum</div>
+            <div class="col-3">Patient</div>
+            <div class="col-3">Versicherung</div>
+            <div class="col-3">Arzt</div>
+            <div class="col-1">Ändern</div>
+        </div>
+        @foreach (Prescript p in Model.Prescripts)
+        {
+            <div class=" row">
+                <div class="col-2">@p.Date</div>
+                <div class="col-3">@p.Patient.Name</div>
+                <div class="col-3">@p.Insurance.Name</div>
+                <div class="col-3">@p.Doctor.Name</div>
+                <div class="col-1">Edit</div>
+            </div>
+        }
+    </div>
+</div>

@@ -15,9 +15,9 @@ namespace Prescription.DAL.Repos
             _connection.Delete<T>(entity);
         }
 
-        public IEnumerable<T> GetAll()
+        public virtual List<T> GetAll()
         {
-            return _connection.GetAll<T>();
+            return _connection.GetAll<T>().ToList();
         }
 
         public virtual T? GetOne(long id)

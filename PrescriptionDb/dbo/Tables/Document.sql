@@ -4,7 +4,7 @@
     [Name] NCHAR(250) NULL, 
     [Type] INT NULL, 
     [Link] NVARCHAR(MAX) NULL, 
-    [Created] TIMESTAMP NULL, 
-    [Modifed] TIMESTAMP NULL, 
+    [Created] DATETIME NULL, 
+    [Modifed] DATETIME NULL, 
     [Deleted] BIT NULL DEFAULT 0
 )

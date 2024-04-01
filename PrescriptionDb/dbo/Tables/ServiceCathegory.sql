@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[ServiceCathgory]
+﻿CREATE TABLE [dbo].[ServiceCathegory]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
 	[Name] NVARCHAR(250),

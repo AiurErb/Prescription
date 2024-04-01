@@ -9,6 +9,24 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
+DELETE FROM dbo.Prescript;
+DELETE FROM dbo.PatientsAddress;
+DELETE FROM dbo.DoctorsAddress;
+DELETE FROM dbo.Doctor;
+DELETE FROM dbo.Patient;
+DELETE FROM dbo.Insurance;
+DBCC CHECKIDENT('dbo.Patient',RESEED,0);
+DBCC CHECKIDENT('dbo.Doctor',RESEED,0);
+DBCC CHECKIDENT('dbo.Insurance',RESEED,0);
+DBCC CHECKIDENT('dbo.PatientsAddress',RESEED,0);
+DBCC CHECKIDENT('dbo.DoctorsAddress',RESEED,0)
+DBCC CHECKIDENT('dbo.Prescript',RESEED,0);
+
+IF NOT EXISTS (SELECT 1 FROM dbo.Insurance)
+BEGIN
+    INSERT INTO dbo.Insurance ([Name])
+    VALUES ('DAK'),('AOK')
+END;
 IF NOT EXISTS (SELECT 1 FROM dbo.Doctor)
 BEGIN
     INSERT INTO dbo.Doctor
@@ -21,7 +39,8 @@ BEGIN
     INSERT INTO [dbo].DoctorsAddress
     ([Street],[Haus], [ZIP],[DoctorId],[Current])
     VALUES
-    ('BuchheimerWeg','23a','51090',1,1)
+    ('BuchheimerWeg','23a','51090',1,1),
+    ('Müllheimerstr.','140','51130',2,1)
 END;
 IF NOT EXISTS (SELECT 1 FROM dbo.Patient)
 BEGIN
@@ -35,11 +54,12 @@ BEGIN
     INSERT INTO PatientsAddress
     ([Street],[Haus],[ZIP],[City],[PatientId],[Current])
     VALUES
-    ('Mülheimerstr.','12','51104','Köln',1,1)
+    ('Mülheimerstr.','12','51104','Köln',1,1),
+    ('Buchheimerstr.','236','51210','Köln',2,1)
 END
-IF NOT EXISTS (SELECT 1 FROM dbo.ServiceCathgory)
+IF NOT EXISTS (SELECT 1 FROM dbo.ServiceCathegory)
 BEGIN
-    INSERT INTO dbo.ServiceCathgory ([Name])
+    INSERT INTO dbo.ServiceCathegory ([Name])
     VALUES
     ('Medikamentengabe'),
     ('Herrichten der Medikamentenbox'),
@@ -56,4 +76,12 @@ BEGIN
     ('Kompressionsverbände anlegen'),
     ('Kompressionsverbande abnehmen'),
     ('Stützende und stabilisierende Verbände, Art')
+END
+IF NOT EXISTS (SELECT 1 FROM dbo.Prescript)
+BEGIN
+    INSERT INTO dbo.Prescript
+    ([Date],[PatientId],[DoctorId],[InsuranceId],[Strart],[End])
+    VALUES
+    ('2023-03-15',1,1,1,'2023-03-20','2023-04-20'),
+    ('2023-03-30',2,2,2,'2023-04-01','2023-04-30')
 END
