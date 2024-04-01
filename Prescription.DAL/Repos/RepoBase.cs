@@ -34,10 +34,11 @@ namespace Prescription.DAL.Repos
         {
             _connection.Update<T>(entity);
         }
-        //public virtual List<U> GetDepend<U>(long id, string foreignKey) where U: class
-        //{     
-        //    string sql = $"SELECT * FROM {nameof(U)} WHERE {foreignKey} = @id";
-        //    return _connection.Query<U>(sql, new { id = id }).ToList();
-        //}
+        public virtual List<U> GetDepend<U>(long id, string foreignKey) where U : class
+        {
+            string tableName = typeof(U).Name;
+            string sql = $"SELECT * FROM {tableName} WHERE {foreignKey} = @id";
+            return _connection.Query<U>(sql, new { id = id }).ToList();
+        }
     }
 }

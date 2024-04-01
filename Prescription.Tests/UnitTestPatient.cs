@@ -29,8 +29,8 @@ namespace Prescription.Tests
                 Birthday = new DateTime(1960, 10, 15),
 
             };
-            repo.Insert(newPatient);
-            Assert.Equal(3, repo.GetAll().Count());
+            long id = repo.Insert(newPatient);
+            Assert.Equal(id, repo.GetAll().Count());
         }
         [Fact]
         public void UpdatePatient()
@@ -78,6 +78,14 @@ namespace Prescription.Tests
             Patient? patient = repo.GetOne(1);
             PatientsAddress address = patient.Addresses.First();
             Assert.Equal("Mülheimerstr.", address.Street);
+        }
+        [Fact] 
+        public void GetAddresses()
+        {
+            PatientRepo repo = new PatientRepo();
+            List<DoctorsAddress> addresses = repo.GetDepend<DoctorsAddress>
+                (1, "DoctorId");
+            Assert.NotEmpty(addresses);
         }
 
     }
