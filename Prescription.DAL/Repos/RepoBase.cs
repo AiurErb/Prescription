@@ -2,13 +2,19 @@
 using Dapper.Contrib.Extensions;
 using Microsoft.Data.SqlClient;
 using Prescription.DAL.Entities;
+using System.Data;
 using System.Transactions;
 
 namespace Prescription.DAL.Repos
 {
     public class RepoBase<T> where T : class
     {
-        protected SqlConnection _connection;        
+        protected IDbConnection _connection;
+
+        public RepoBase(IDbConnection connection)
+        {
+            _connection = connection;
+        }
 
         public void Delete(T entity)
         {

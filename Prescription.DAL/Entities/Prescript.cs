@@ -23,7 +23,9 @@ namespace Prescription.DAL.Entities
         
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
-        public long DocumtntId { get; set; }
+        public long DocumentId { get; set; }
+        [Computed]
+        public Document? Document { get; set; }
         [Computed]
         public List<Service> Services { get; set; }
     }

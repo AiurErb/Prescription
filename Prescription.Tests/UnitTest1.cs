@@ -1,28 +1,32 @@
 using Prescription.DAL.Entities;
 using Prescription.DAL.Repos;
+using Microsoft.Data.SqlClient;
 
 
 namespace Prescription.Test
 {
     public class UnitTest1
-    {        
-        
+    {
+        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PrescriptionDb;Integrated Security=True;";
+        static SqlConnection connection = new SqlConnection(connectionString);
+
         [Fact]
         public void TestInsuranceGetOne()
         {            
-            InsuranceRepo repo = new InsuranceRepo();
+            
+            InsuranceRepo repo = new InsuranceRepo(connection);
             Assert.Equal("AOK", repo.GetOne(2).Name);
         }
         [Fact]
         public void TestInsuranceGetAll()
         {
-            InsuranceRepo repo = new InsuranceRepo();
+            InsuranceRepo repo = new InsuranceRepo(connection);
             Assert.Equal(4, repo.GetAll().Count());
         }
         [Fact]
         public void TestInsuranceInsertDelete()
         {
-            InsuranceRepo repo = new InsuranceRepo();
+            InsuranceRepo repo = new InsuranceRepo(connection);
             Insurance newInsurance = new Insurance 
             {
                 Name = "Techniker"
@@ -36,7 +40,7 @@ namespace Prescription.Test
         [Fact]
         public void TestInsuranceUpdate()
         {
-            InsuranceRepo repo = new InsuranceRepo();
+            InsuranceRepo repo = new InsuranceRepo(connection);
             Insurance editedInsurance = new Insurance
             {
                 Id = 1,

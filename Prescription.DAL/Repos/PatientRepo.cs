@@ -4,6 +4,7 @@ using Microsoft.Data.SqlClient;
 using Prescription.DAL.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,10 +13,8 @@ namespace Prescription.DAL.Repos
 {
     public class PatientRepo: RepoBase<Patient>
     {        
-        public PatientRepo() 
+        public PatientRepo(IDbConnection connection) : base(connection) 
         { 
-            ConnectToDb connectToDb = new ConnectToDb();
-            _connection = connectToDb.GetConnection();
         }
         public override Patient GetOne(long id)
         {

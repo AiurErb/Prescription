@@ -1,27 +1,33 @@
-﻿using Prescription.DAL.Entities;
+﻿using Microsoft.Data.SqlClient;
+using Prescription.DAL.Entities;
 using Prescription.DAL.Repos;
 
 namespace Prescription.Tests
 {
     public class UnitTestPatient
     {
+        string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PrescriptionDb;Integrated Security=True;";
+        SqlConnection connection;
         [Fact]
         public void GetOnePatient()
         {
-            PatientRepo repo= new PatientRepo();
+            connection = new SqlConnection(connectionString);
+            PatientRepo repo= new PatientRepo(connection);
             Assert.Equal("Robert Höpgen", repo.GetOne(1)?.Name);
         }
         [Fact]
         public void GetAllPatients()
         {
-            PatientRepo repo= new PatientRepo();
+            connection = new SqlConnection(connectionString);
+            PatientRepo repo= new PatientRepo(connection);
             Assert.Equal(2, repo.GetAll().Count());
 
         }
         [Fact]
         public void AddPatient()
         {
-            PatientRepo repo = new PatientRepo();
+            connection = new SqlConnection(connectionString);
+            PatientRepo repo = new PatientRepo(connection);
             Patient newPatient = new Patient
             {
                 Name = "Tunkay Dogu",
@@ -35,7 +41,8 @@ namespace Prescription.Tests
         [Fact]
         public void UpdatePatient()
         {
-            PatientRepo repo = new PatientRepo();
+            connection = new SqlConnection(connectionString);
+            PatientRepo repo = new PatientRepo(connection);
             Patient? updatedPatient = repo.GetOne(3);
             DateTime newBirthday = new DateTime(1958, 10, 15);
             updatedPatient.Birthday = newBirthday;
@@ -46,7 +53,8 @@ namespace Prescription.Tests
         [Fact]
         public void DeletePatient()
         {
-            PatientRepo repo = new PatientRepo();
+            connection = new SqlConnection(connectionString);
+            PatientRepo repo = new PatientRepo(connection);
             Patient? deletePatient = repo.GetOne(3);
             repo.Delete(deletePatient);
             Assert.Equal(2, repo.GetAll().Count());
@@ -54,6 +62,7 @@ namespace Prescription.Tests
         [Fact]
         public void AddPatientWithAddress()
         {
+            connection = new SqlConnection(connectionString);
             Patient newPatient = new Patient
             {
                 Name = "Fatima Barzizuzoy",
@@ -66,7 +75,7 @@ namespace Prescription.Tests
                 new PatientsAddress {Street="Hartenberg str.", Haus="54f",Current=true}
             };
             newPatient.Addresses=addresses;
-            PatientRepo repo = new PatientRepo();
+            PatientRepo repo = new PatientRepo(connection);
             long insert = repo.Insert(newPatient);
             Assert.Equal(2, repo.GetOne(insert).Addresses.Count);
 
@@ -74,7 +83,8 @@ namespace Prescription.Tests
         [Fact]
         public void GetPatientWithAddress()
         {
-            PatientRepo repo = new PatientRepo();
+            connection = new SqlConnection(connectionString);
+            PatientRepo repo = new PatientRepo(connection);
             Patient? patient = repo.GetOne(1);
             PatientsAddress address = patient.Addresses.First();
             Assert.Equal("Mülheimerstr.", address.Street);
@@ -82,7 +92,8 @@ namespace Prescription.Tests
         [Fact] 
         public void GetAddresses()
         {
-            PatientRepo repo = new PatientRepo();
+            connection = new SqlConnection(connectionString);
+            PatientRepo repo = new PatientRepo(connection);
             List<DoctorsAddress> addresses = repo.GetDepend<DoctorsAddress>
                 (1, "DoctorId");
             Assert.NotEmpty(addresses);

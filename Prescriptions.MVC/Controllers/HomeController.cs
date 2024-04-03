@@ -7,14 +7,17 @@ namespace Prescriptions.MVC.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private string? _connectionString;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IConfiguration appConfig)
         {
             _logger = logger;
+            _connectionString = appConfig.GetConnectionString("SqlServerLocal");
         }
 
         public IActionResult Index()
         {
+            Console.WriteLine(_connectionString);
             return View();
         }
 

@@ -1,14 +1,13 @@
 ﻿using Prescription.DAL.Entities;
+using System.Data;
 
 
 namespace Prescription.DAL.Repos
 {
     public class InsuranceRepo : RepoBase<Insurance>
     {
-        public InsuranceRepo()
+        public InsuranceRepo(IDbConnection connection) : base(connection)
         {
-            ConnectToDb connectToDb = new ConnectToDb();
-            _connection = connectToDb.GetConnection();
         }
     }
 }

@@ -6,19 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Dapper.Contrib.Extensions;
+using System.Data;
 
 namespace Prescription.DAL.Repos
 {
     public class DoctorRepo : RepoBase<Doctor>
     {
-        public DoctorRepo()
-        {
-            ConnectToDb connectToDb = new ConnectToDb();
-            _connection = connectToDb.GetConnection();
-        }
+        public DoctorRepo(IDbConnection connection) : base(connection) { }
         public List<DoctorsAddress> GetAddresses(Doctor doctor)
         {
-            DoctorsAddressRepo addresses = new DoctorsAddressRepo();
+            DoctorsAddressRepo addresses = new DoctorsAddressRepo(_connection);
             return addresses.GetByDoctor(doctor.Id).ToList();
         }
         public DoctorsAddress? GetCurrentAddress(Doctor doctor)

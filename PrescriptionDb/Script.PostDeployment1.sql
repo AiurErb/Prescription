@@ -16,6 +16,8 @@ DELETE FROM dbo.Doctor;
 DELETE FROM dbo.Patient;
 DELETE FROM dbo.Insurance;
 DELETE FROM dbo.[Service];
+DELETE FROM dbo.Document;
+
 DBCC CHECKIDENT('dbo.Patient',RESEED,0);
 DBCC CHECKIDENT('dbo.Doctor',RESEED,0);
 DBCC CHECKIDENT('dbo.Insurance',RESEED,0);
@@ -23,6 +25,16 @@ DBCC CHECKIDENT('dbo.PatientsAddress',RESEED,0);
 DBCC CHECKIDENT('dbo.DoctorsAddress',RESEED,0)
 DBCC CHECKIDENT('dbo.Prescript',RESEED,0);
 DBCC CHECKIDENT('dbo.Service',RESEED,0);
+DBCC CHECKIDENT('dbo.Document',RESEED,0);
+
+IF NOT EXISTS (SELECT 1 FROM dbo.Document)
+BEGIN
+    INSERT INTO dbo.Document
+    ([Name],[Type],[Link],[Created],[Modifed])
+    VALUES
+    ('Doc 1',1,'C:\Users\Aiur\source\repos\Prescription\Prescriptions.MVC\Documents\Scan20240402102954.pdf',GETDATE(),GETDATE()),
+    ('Doc 2',1,'C:\Users\Aiur\source\repos\Prescription\Prescriptions.MVC\Documents\Scan20240403132336.pdf',GETDATE(),GETDATE())
+END;
 
 IF NOT EXISTS (SELECT 1 FROM dbo.Insurance)
 BEGIN
@@ -83,10 +95,10 @@ END;
 IF NOT EXISTS (SELECT 1 FROM dbo.Prescript)
 BEGIN
     INSERT INTO dbo.Prescript
-    ([Date],[PatientId],[DoctorId],[InsuranceId],[Strart],[End])
+    ([Date],[PatientId],[DoctorId],[InsuranceId],[Strart],[End],[DocumentId])
     VALUES
-    ('2023-03-15',1,1,1,'2023-03-20','2023-04-20'),
-    ('2023-03-30',2,2,2,'2023-04-01','2023-04-30')
+    ('2023-03-15',1,1,1,'2023-03-20','2023-04-20',1),
+    ('2023-03-30',2,2,2,'2023-04-01','2023-04-30',2)
 END;
 
 IF NOT EXISTS (SELECT 1 FROM dbo.[Service])
