@@ -35,9 +35,9 @@ namespace Prescription.DAL.Repos
                 .ToList();
             return prescript;
         }
-        public override List<Prescript> GetAll()
+        public override async Task<List<Prescript>> GetAll()
         {
-            List<Prescript> prescripts = base.GetAll();
+            List<Prescript> prescripts = await base.GetAll();
             foreach (Prescript p in prescripts)
             {                
                 p.Patient = patient.GetOne(p.PatientId);                

@@ -18,10 +18,11 @@ namespace Prescription.Test
             Assert.Equal("AOK", repo.GetOne(2).Name);
         }
         [Fact]
-        public void TestInsuranceGetAll()
+        public async Task TestInsuranceGetAll()
         {
             InsuranceRepo repo = new InsuranceRepo(connection);
-            Assert.Equal(4, repo.GetAll().Count());
+            var count = await repo.GetAll();
+            Assert.Equal(4, count.Count());
         }
         [Fact]
         public void TestInsuranceInsertDelete()

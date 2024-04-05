@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Prescription.DAL.Entities;
 using Prescription.DAL.Repos;
 
 namespace Prescriptions.MVC.Controllers
@@ -12,16 +13,47 @@ namespace Prescriptions.MVC.Controllers
         {
             _connectionString = configuration.GetConnectionString("SqlServerLocal");
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            using SqlConnection connection = new SqlConnection(_connectionString);
-            InsuranceRepo repo = new InsuranceRepo(connection);
-            return View(repo.GetAll());
+            var model = await GetRepo().GetAll();
+            return View(model);
         }
         [HttpGet]
         public IActionResult Add()
         {
             return View();
+        }
+        [HttpPost]
+        public IActionResult Add(Insurance newInsurance)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            newInsurance.Id = 0;
+            GetRepo().Insert(newInsurance);
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            return View(GetRepo().GetOne(id));
+        }
+        [HttpPost]
+        public IActionResult EditAsync(Insurance editedInsurance)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(editedInsurance);
+            }
+            GetRepo().Update(editedInsurance);
+            return RedirectToAction(nameof(Index));
+        }
+
+        private InsuranceRepo GetRepo()
+        {
+            SqlConnection connection = new SqlConnection(_connectionString);
+            return new InsuranceRepo(connection);
         }
     }
 }

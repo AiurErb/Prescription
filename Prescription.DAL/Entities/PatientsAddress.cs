@@ -1,4 +1,5 @@
 ﻿using Dapper.Contrib.Extensions;
+using Prescription.DAL.Interfaces;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 

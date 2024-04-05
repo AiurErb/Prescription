@@ -21,9 +21,10 @@ namespace Prescription.DAL.Repos
             _connection.Delete<T>(entity);
         }
 
-        public virtual List<T> GetAll()
+        public virtual async Task<List<T>> GetAll()
         {
-            return _connection.GetAll<T>().ToList();
+            var output = await _connection.GetAllAsync<T>();
+            return output.ToList();
         }
 
         public virtual T? GetOne(long id)

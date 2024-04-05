@@ -15,12 +15,12 @@ namespace Prescriptions.MVC.Controllers
             if (_connectionString == String.Empty ) { throw new ArgumentNullException("There isn't connectionString"); }
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             SqlConnection connection = new SqlConnection( _connectionString );
             PrescriptRepo repo = new PrescriptRepo( connection );
             IndexOfPrescriptModel model = new IndexOfPrescriptModel();
-            model.Prescripts = repo.GetAll().ToList();
+            model.Prescripts = await repo.GetAll();
             return View(model);
         }
     }
