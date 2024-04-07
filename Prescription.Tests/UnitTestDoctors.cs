@@ -17,11 +17,12 @@ namespace Prescription.Tests
             Assert.Equal("Dr. Horst", repo.GetOne(1)?.Name);
         }
         [Fact]
-        public void GetAll()
+        public async Task GetAllAsync()
         {
             connection = new SqlConnection(connectionString);
             var repo = new DoctorRepo(connection);
-            Assert.Equal(2, repo.GetAll().Count());
+            var list = await repo.GetAll();
+            Assert.Equal(2, list.Count());
         }
         [Fact]
         public void AddAddress()

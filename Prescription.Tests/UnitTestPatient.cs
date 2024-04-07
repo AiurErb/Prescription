@@ -16,15 +16,16 @@ namespace Prescription.Tests
             Assert.Equal("Robert Höpgen", repo.GetOne(1)?.Name);
         }
         [Fact]
-        public void GetAllPatients()
+        public async void GetAllPatients()
         {
             connection = new SqlConnection(connectionString);
             PatientRepo repo= new PatientRepo(connection);
-            Assert.Equal(2, repo.GetAll().Count());
+            var list = await repo.GetAll();
+            Assert.Equal(2, list.Count());
 
         }
         [Fact]
-        public void AddPatient()
+        public async void AddPatient()
         {
             connection = new SqlConnection(connectionString);
             PatientRepo repo = new PatientRepo(connection);
@@ -36,7 +37,8 @@ namespace Prescription.Tests
 
             };
             long id = repo.Insert(newPatient);
-            Assert.Equal(id, repo.GetAll().Count());
+            var list = await repo.GetAll();
+            Assert.Equal(id, list.Count());
         }
         [Fact]
         public void UpdatePatient()
@@ -51,13 +53,14 @@ namespace Prescription.Tests
 
         }
         [Fact]
-        public void DeletePatient()
+        public async void DeletePatient()
         {
             connection = new SqlConnection(connectionString);
             PatientRepo repo = new PatientRepo(connection);
             Patient? deletePatient = repo.GetOne(3);
             repo.Delete(deletePatient);
-            Assert.Equal(2, repo.GetAll().Count());
+            var list = await repo.GetAll();
+            Assert.Equal(2, list.Count());
         }
         [Fact]
         public void AddPatientWithAddress()
@@ -79,6 +82,18 @@ namespace Prescription.Tests
             long insert = repo.Insert(newPatient);
             Assert.Equal(2, repo.GetOne(insert).Addresses.Count);
 
+        }
+        [Fact]
+        public void SetUpCurrentAddress()
+        {
+            connection = new SqlConnection(connectionString);
+            PatientsAddressRepo repo = new PatientsAddressRepo(connection);
+            bool setUp = repo.SetCurrent(1001, 1001);
+            Assert.True(setUp);
+            PatientRepo patientRepo = new PatientRepo(connection);
+            Patient patient = patientRepo.GetOne(1001);
+            PatientsAddress address = patient.CurrentAddress;
+            Assert.Equal(1001, address.Id);
         }
         [Fact]
         public void GetPatientWithAddress()

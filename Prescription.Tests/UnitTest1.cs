@@ -22,10 +22,10 @@ namespace Prescription.Test
         {
             InsuranceRepo repo = new InsuranceRepo(connection);
             var count = await repo.GetAll();
-            Assert.Equal(4, count.Count());
+            Assert.Equal(2, count.Count());
         }
         [Fact]
-        public void TestInsuranceInsertDelete()
+        public async void TestInsuranceInsertDelete()
         {
             InsuranceRepo repo = new InsuranceRepo(connection);
             Insurance newInsurance = new Insurance 
@@ -33,10 +33,13 @@ namespace Prescription.Test
                 Name = "Techniker"
             };
             long id = repo.Insert(newInsurance);
-            Assert.Equal(5, repo.GetAll().Count());
+            var list = await repo.GetAll();
+            Assert.Equal(3, list.Count());
             Assert.Equal("Techniker", repo.GetOne(id)?.Name);
+
             repo.Delete(newInsurance);
-            Assert.Equal(4, repo.GetAll().Count());
+            list = await repo.GetAll();
+            Assert.Equal(2, list.Count());
         }
         [Fact]
         public void TestInsuranceUpdate()

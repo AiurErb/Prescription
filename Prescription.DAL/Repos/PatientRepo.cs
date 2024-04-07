@@ -24,6 +24,7 @@ namespace Prescription.DAL.Repos
 
             patient.Addresses = GetDepend<PatientsAddress>(
                 patient.Id, "PatientId");
+            patient.CurrentAddress=GetCurrentAddress(patient.Id);
             
             return patient;
         }
@@ -36,6 +37,10 @@ namespace Prescription.DAL.Repos
                 _connection.Insert<PatientsAddress>(address);
             }
             return id;
+        }
+        public PatientsAddress GetCurrentAddress(long id)
+        {
+            return GetDepend<PatientsAddress>(id, "PatientId").First(address => address.Current);
         }
        
     }
