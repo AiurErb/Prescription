@@ -22,5 +22,14 @@ namespace Prescription.DAL.Repos
         {
             return GetAddresses(doctor).FirstOrDefault(address => address.Current == true);
         }
+        public override async Task<List<Doctor>> GetAll()
+        {            
+            var output = await _connection.GetAllAsync<Doctor>();
+            foreach (Doctor doctor in output)
+            {
+                doctor.CurrentAddress = GetCurrentAddress(doctor);
+            }
+            return output.ToList();
+        }
     }
 }

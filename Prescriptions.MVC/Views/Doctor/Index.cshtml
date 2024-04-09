@@ -1,0 +1,24 @@
+﻿@model List<Doctor>
+
+<h2>Ärzte</h2>
+
+<div class="container">
+    <div class="table">
+        <div class="row">
+            <div class="col-2">Id</div>
+            <div class="col-4">Name</div>
+            <div class="col-2">LANR</div>
+            <div class="col-4">Adresse</div>
+        </div>
+        <hr/>
+        @foreach (Doctor doctor in Model)
+        {
+            <div class="row">
+                <div class="col-2">@doctor.Id</div>
+                <div class="col-4">@doctor.Name</div>
+                <div class="col-2">@doctor.LANR</div>
+                <div class="col-4">@doctor.CurrentAddress.ToString()</div>
+            </div>
+        }
+    </div>
+</div>

@@ -30,20 +30,22 @@ namespace Prescriptions.MVC.Controllers
         {
             PatientsAddress model = new PatientsAddress()
             {
+                Id = 0,
                 PatientId = id,
+                Current=true
             };
             return View(model);
         }
         [HttpPost]
-        public IActionResult NewAddress([FromRoute] long patientId,[FromBody] PatientsAddress model)
+        public IActionResult NewAddress([FromForm] PatientsAddress model)
         {
             if (!ModelState.IsValid) return View(model);
             PatientsAddressRepo addressRepo = new PatientsAddressRepo(
                 new SqlConnection(_connectionString));
             long current = addressRepo.Insert(model);
             if (addressRepo.SetCurrent(current, model.PatientId))
-            {
-                return RedirectToAction(nameof(Details), model.PatientId);
+            {                
+                return RedirectToAction(nameof(Details), new { id = model.PatientId });
             }
             else return View(model);
         }
