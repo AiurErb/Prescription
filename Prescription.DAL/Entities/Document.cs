@@ -8,9 +8,9 @@ namespace Prescription.DAL.Entities
         [Key]
         public long Id { get; set; }
         public string Name { get; set; }
-        public int Type { get; set; }
-        public string Link { get; set; }
-        public DateTime Created {  get; set; }
-        public DateTime Modifed { get; set; }
+        public int Type { get; set; } = 1;
+        public string? Link { get; set; }
+        public DateTime? Created {  get; set; }
+        public DateTime? Modifed { get; set; }
     }
 }

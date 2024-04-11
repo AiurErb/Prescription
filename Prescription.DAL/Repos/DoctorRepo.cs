@@ -31,5 +31,11 @@ namespace Prescription.DAL.Repos
             }
             return output.ToList();
         }
+        public override Doctor GetOne(long id)
+        {
+            Doctor output = base.GetOne(id);
+            output.CurrentAddress = GetCurrentAddress(output);
+            return output;
+        }
     }
 }

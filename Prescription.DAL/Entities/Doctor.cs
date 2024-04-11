@@ -14,9 +14,9 @@ namespace Prescription.DAL.Entities
         public string Name { get; set; }
         public string LANR { get; set; }
         [Computed]
-        public List<DoctorsAddress> DoctorsAddresses { get; set;}
+        public List<DoctorsAddress>? DoctorsAddresses { get; set;}
         [Computed]
-        public DoctorsAddress CurrentAddress { get; set; }
+        public DoctorsAddress? CurrentAddress { get; set; }
     }
 
     

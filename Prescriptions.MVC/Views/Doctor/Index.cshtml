@@ -6,7 +6,7 @@
     <div class="table">
         <div class="row">
             <div class="col-2">Id</div>
-            <div class="col-4">Name</div>
+            <div class="col-2">Name</div>
             <div class="col-2">LANR</div>
             <div class="col-4">Adresse</div>
         </div>
@@ -15,9 +15,14 @@
         {
             <div class="row">
                 <div class="col-2">@doctor.Id</div>
-                <div class="col-4">@doctor.Name</div>
+                <div class="col-2">@doctor.Name</div>
                 <div class="col-2">@doctor.LANR</div>
                 <div class="col-4">@doctor.CurrentAddress.ToString()</div>
+                <div class="col-2">
+                    <a asp-action="Details" asp-route-id="@doctor.Id">#
+                        <i class="fa-solid fa-info"></i>
+                    </a>
+                </div>
             </div>
         }
     </div>
