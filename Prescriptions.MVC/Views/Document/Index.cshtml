@@ -40,7 +40,7 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                <a asp-action="OpenFile" asp-route-filename="@item.Link">
+                <a asp-action="OpenFile" asp-route-filename="@item.Link" target="_blank">
                 @Html.DisplayFor(modelItem => item.Name)
                     </a>
             </td>

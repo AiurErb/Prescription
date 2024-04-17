@@ -21,14 +21,16 @@ namespace Prescriptions.MVC.Controllers
             _uploadsDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
         }
         private DocumentRepo GetRepo() => new DocumentRepo(new SqlConnection(_connectionString));
+
         // GET: DocumentController/OpenFile
+        [HttpGet]
         public IActionResult OpenFile(string fileName)
         {
             if (System.IO.File.Exists(fileName))
             {
                 string contentType = "application/pdf";
                 FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                return File(fileStream, contentType, fileName);
+                return File(fileStream, contentType);
             }
             else return NotFound();
         }
