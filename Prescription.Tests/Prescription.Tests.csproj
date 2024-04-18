@@ -29,7 +29,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Prescription.DAL\Prescription.DAL.csproj" />
-    <ProjectReference Include="..\Prescription.Models\Prescription.Models.csproj" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup Condition="$(VisualStudioVersion) == '17.0'">

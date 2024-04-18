@@ -11,6 +11,6 @@
     CONSTRAINT [FK_Prescript_Doctor] FOREIGN KEY ([DoctorId]) REFERENCES [dbo].[Doctor] ([Id]),
     CONSTRAINT [FK_Prescript_Insurance] FOREIGN KEY ([InsuranceId]) REFERENCES [dbo].[Insurance] ([Id]),
     CONSTRAINT [FK_Prescript_Patient] FOREIGN KEY ([PatientId]) REFERENCES [dbo].[Patient] ([Id]),
-    CONSTRAINT [FK_Prescript_Document] FOREIGN KEY ([DocumentID]) REFERENCES [dbo].[Document] ([Id])
+    CONSTRAINT [FK_Prescript_Document] FOREIGN KEY ([DocumentId]) REFERENCES [dbo].[Document] ([Id])
 );
 

@@ -18,6 +18,7 @@ namespace Prescriptions.MVC.Controllers
         public IActionResult Index()
         {
             Console.WriteLine(_connectionString);
+            _logger.LogInformation("test");
             return View();
         }
 

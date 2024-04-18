@@ -111,3 +111,12 @@ BEGIN
     ('',5,'1t1w1m','2023-04-01','2023-04-20',2,1),
     ('Beschreibung 4',6,'2t1w1m','2023-04-20','2023-04-30',2,1)
 END;
+
+IF NOT EXISTS (SELECT 1 FROM auth.[User])
+BEGIN
+    INSERT INTO auth.[User]
+    ([Name],[Password],[Role])
+    VALUES
+    ('User1','1','admin'),
+    ('User2','2','user')
+END;

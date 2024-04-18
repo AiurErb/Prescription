@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Prescription.DAL.Entities;
 using Prescription.DAL.Repos;
+using System.Security.Claims;
 
 namespace Prescriptions.MVC.Controllers
 {
+    [Authorize]
     public class InsuranceController : Controller
     {
         private string? _connectionString;
@@ -16,6 +19,8 @@ namespace Prescriptions.MVC.Controllers
         public async Task<IActionResult> Index()
         {
             var model = await GetRepo().GetAll();
+            var user = HttpContext.User.Identity;
+            Console.WriteLine(user.Name);
             return View(model);
         }
         [HttpGet]
