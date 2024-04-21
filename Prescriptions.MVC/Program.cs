@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Serilog;
 using Serilog.AspNetCore;
 
 public class Program
 {
-    private static void Main(string[] args)
+    public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,7 @@ public class Program
         builder.Configuration.AddJsonFile("appsettings.json");
         builder.Host.UseSerilog();
         builder.Services.AddAuthentication("Cookies")
-            .AddCookie(options => options.LoginPath = "/user/login");
+            .AddCookie(CookieOption);
 
         IConfiguration config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json").Build();
@@ -40,5 +41,12 @@ public class Program
             pattern: "{controller=Home}/{action=Index}/{id?}");
 
         app.Run();
+    }
+
+    private static void  CookieOption(CookieAuthenticationOptions option)
+    {        
+        option.LoginPath = "/user/login";
+        option.ExpireTimeSpan = TimeSpan.FromMinutes(15);
+        option.SlidingExpiration = true;        
     }
 }
