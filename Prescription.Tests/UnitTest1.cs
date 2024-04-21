@@ -1,45 +1,64 @@
-using Microsoft.Data.SqlClient;
-using Dapper.Contrib.Extensions;
-using Prescription.DAL;
+using Prescription.DAL.Entities;
 using Prescription.DAL.Repos;
-using Prescription.Models;
+using Microsoft.Data.SqlClient;
+
 
 namespace Prescription.Test
 {
     public class UnitTest1
     {
-        [Fact]
-        public void Test1()
-        {
-            ConnectToDb testCon = new ConnectToDb();
+        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PrescriptionDb;Integrated Security=True;";
+        static SqlConnection connection = new SqlConnection(connectionString);
 
-            Assert.NotNull(testCon);
-            string sql = "SELECT * FROM Insurance";
-            Assert.Equal("DAK", testCon.Test(sql));
+        [Fact]
+        public void TestInsuranceGetOne()
+        {            
+            
+            InsuranceRepo repo = new InsuranceRepo(connection);
+            Assert.Equal("AOK", repo.GetOne(2).Name);
         }
         [Fact]
-        public void TestInsuranseList()
+        public async Task TestInsuranceGetAll()
         {
-            string sql = "SELECT * FROM Insurance";
-            ConnectToDb testCon = new ConnectToDb();
-            List<Models.Insurance> ins = testCon.GetList<Models.Insurance>(sql);
-            Assert.Equal(2, ins.Count);
-            Assert.Equal("DAK", testCon.Test(sql));
+            InsuranceRepo repo = new InsuranceRepo(connection);
+            var count = await repo.GetAll();
+            Assert.Equal(2, count.Count());
         }
         [Fact]
-        public void TestOneInsuranse()
+        public async void TestInsuranceInsertDelete()
         {
-            ConnectToDb testCon = new ConnectToDb();
-            SqlConnection con = testCon.GetConnection();
-            DAL.Entities.Insurance repo = con.Get<DAL.Entities.Insurance>(1);
-            Assert.Equal("DAK", repo.Name);
+            InsuranceRepo repo = new InsuranceRepo(connection);
+            Insurance newInsurance = new Insurance 
+            {
+                Name = "Techniker"
+            };
+            long id = repo.Insert(newInsurance);
+            var list = await repo.GetAll();
+            Assert.Equal(3, list.Count());
+            Assert.Equal("Techniker", repo.GetOne(id)?.Name);
+
+            repo.Delete(newInsurance);
+            list = await repo.GetAll();
+            Assert.Equal(2, list.Count());
         }
         [Fact]
-        public void TestInsert()
+        public void TestInsuranceUpdate()
         {
-            ConnectToDb testCon = new ConnectToDb();
-            InsuranceRepo repo = new(testCon.GetConnection());
-            Assert.Equal("AOK", repo.GetOne(1).Name);
+            InsuranceRepo repo = new InsuranceRepo(connection);
+            Insurance editedInsurance = new Insurance
+            {
+                Id = 1,
+                Name = "DAK+Edit"
+            };
+            repo.Update(editedInsurance);
+            Assert.Equal("DAK+Edit", repo.GetOne(1)?.Name);
+            editedInsurance = new Insurance
+            {
+                Id = 1,
+                Name = "DAK"
+            };
+            repo.Update(editedInsurance);
+            Assert.Equal("DAK", repo.GetOne(1)?.Name);
         }
     }
 }

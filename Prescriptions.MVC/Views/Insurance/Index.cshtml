@@ -1,0 +1,36 @@
+﻿@using Prescription.DAL.Entities;
+
+@model List<Insurance>
+
+<h2>Versiherungen</h2>
+<div class="container">
+    <div class="table">
+        <b>
+            <div class="row">
+                <div class="col-3">Id</div>
+                <div class="col-3">Versicherung</div>
+            </div>
+        </b>
+        
+            @foreach (Insurance i in Model)
+            {
+                <div class="row">
+                    <div class="col-3">@i.Id</div>
+                    <div class="col-3">@i.Name</div>
+                    <div class="col-3">
+                        <a asp-action="Add">
+                            <i class="fa-solid fa-plus"></i>
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@i.Id">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </a>
+                    </div>
+                </div>
+            }
+        
+        
+    </div>
+</div>

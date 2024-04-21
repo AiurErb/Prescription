@@ -1,0 +1,65 @@
+﻿@using Prescriptions.MVC.Models.Prescript;
+@using Prescription.DAL.Entities;
+
+@model IndexOfPrescriptModel
+@{
+}
+<h2>Verordnungen</h2>
+<div class="container-fluid">
+    <div class="table">
+        <div class=" row">
+            <div class="col-2">Datum</div>
+            <div class="col-3">Patient</div>
+            <div class="col-3">Versicherung</div>
+            <div class="col-3">Arzt</div>
+            <div class="col-1">Ändern</div>
+        </div>
+        @foreach (Prescript p in Model.Prescripts)
+        {
+            <div class="card bg-light">
+                <div class="card-body">
+                    <div class=" row">
+                        <div class="col-2">@p.Date.ToString("dd.MM.yy")</div>
+                        <div class="col-3"><b>@p.Patient.Name</b></div>
+                        <div class="col-3">@p.Insurance.Name</div>
+                        <div class="col-3">@p.Doctor.Name</div>
+                        <div class="col-1">
+                            <a href="#">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <a href="@p.Document.Link">@p.Document.Name</a>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <small>
+                        <div class="row">
+                            <div class=" col-1"></div>
+                            <div class="col-3"><b>Leistungen</b></div>
+                            <div class="col-2">Häufigkeit</div>
+                            <div class="col-2">Anfang</div>
+                            <div class="col-2">Ende</div>
+                        </div>
+                        @foreach (Service s in p.Services)
+                        {
+                            <div class="row">
+                                <div class=" col-1">
+                                    <i class="fa-regular fa-clipboard"></i>
+                                </div>
+                                <div class="col-3">@s.Cathegory.Name</div>
+                                <div class="col-2">@s.Frequence</div>
+                                <div class="col-2">@s.Start.ToString("dd.MM.yy")</div>
+                                <div class="col-2">@s.End.ToString("dd.MM.yy")</div>
+                            </div>
+                        }
+                    </small>
+                    
+                </div>
+            </div>            
+            
+        }
+    </div>
+</div>

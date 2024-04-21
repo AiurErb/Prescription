@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Dapper;
-using Prescription.Models;
+using Prescription.DAL.Entities;
 
 namespace Prescription.DAL
 {

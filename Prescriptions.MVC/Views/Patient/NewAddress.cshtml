@@ -1,0 +1,26 @@
+﻿@model PatientsAddress
+
+<h2>Neue Patientenadresse</h2>
+<div class="container">
+    <div class="form-group">
+        <form action="/patient/NewAddress" method="POST">
+            <label >Id</label>
+            <input asp-for="Id" /><br />
+            <label >PatientId</label>
+            <input asp-for="PatientId" /><br />
+            <label asp-for="Current">Current</label>
+            <input asp-for="Current" disabled/><br />
+            <label asp-for="Street">Straße</label>
+            <input asp-for="Street"/><br />
+            <label asp-for="Haus">Hausnummer</label>
+            <input asp-for="Haus" /><br />
+            <label asp-for="ZIP">Postleitzahl</label>
+            <input asp-for="ZIP" /><br />
+            <label asp-for="City">Stadt</label>
+            <input asp-for="City"/>
+            <div>
+                <input type="submit" value="Speichern"/>
+            </div>
+        </form>
+    </div>
+</div>

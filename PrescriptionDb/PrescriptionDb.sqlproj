@@ -60,6 +60,8 @@
     <Folder Include="Properties" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
+    <Folder Include="auth" />
+    <Folder Include="auth\Tables" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Doctor.sql" />
@@ -67,11 +69,20 @@
     <Build Include="dbo\Tables\Insurance.sql" />
     <Build Include="dbo\Tables\Patient.sql" />
     <Build Include="dbo\Tables\PatientsAddress.sql" />
-    <Build Include="dbo\Tables\Prescription.sql" />
+    <Build Include="dbo\Tables\Prescript.sql" />
     <Build Include="dbo\Tables\Service.sql" />
-    <Build Include="dbo\Tables\PrescribedService.sql" />
+    <Build Include="dbo\Tables\Document.sql" />
+    <Build Include="dbo\Tables\Permit.sql" />
+    <Build Include="dbo\Tables\ServiceCathegory.sql" />
+    <Build Include="auth\Tables\User.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment1.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="PrescriptionDb.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PrescriptionDb.publish.xml" />
   </ItemGroup>
 </Project>
