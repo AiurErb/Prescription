@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prescription.DAL", "Prescri
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prescriptions.MVC", "Prescriptions.MVC\Prescriptions.MVC.csproj", "{E78B8C1F-8DB9-452C-A4AA-015A3A95E6A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseSeed", "BaseSeed\BaseSeed.csproj", "{603F686E-C15C-4B87-A498-0FB31DEB0E90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseSeed", "BaseSeed\BaseSeed.csproj", "{603F686E-C15C-4B87-A498-0FB31DEB0E90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvToDbConverter", "CsvToDbConverter\CsvToDbConverter.csproj", "{01A59E3D-AB8B-4A50-8DFF-3348AA741187}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{603F686E-C15C-4B87-A498-0FB31DEB0E90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{603F686E-C15C-4B87-A498-0FB31DEB0E90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{603F686E-C15C-4B87-A498-0FB31DEB0E90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01A59E3D-AB8B-4A50-8DFF-3348AA741187}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01A59E3D-AB8B-4A50-8DFF-3348AA741187}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01A59E3D-AB8B-4A50-8DFF-3348AA741187}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01A59E3D-AB8B-4A50-8DFF-3348AA741187}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

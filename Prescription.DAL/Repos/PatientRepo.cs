@@ -31,6 +31,7 @@ namespace Prescription.DAL.Repos
         public override long Insert(Patient patient)
         {
             long id = base.Insert(patient);
+            if (patient.Addresses == null) return id;
             foreach(PatientsAddress address in patient.Addresses)
             {
                 address.PatientId = id;

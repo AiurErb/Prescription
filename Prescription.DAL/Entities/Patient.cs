@@ -16,9 +16,9 @@ namespace Prescription.DAL.Entities
         [Display(Name="Geburtstag")]
         public DateTime Birthday { get; set; }
         [Computed]
-        public List<PatientsAddress> Addresses { get; set; }
+        public List<PatientsAddress>? Addresses { get; set; }
         [Computed]
-        public PatientsAddress CurrentAddress { get; set; }
+        public PatientsAddress? CurrentAddress { get; set; }
 
     }
 }
