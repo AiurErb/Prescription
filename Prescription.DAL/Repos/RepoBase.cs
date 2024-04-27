@@ -2,12 +2,13 @@
 using Dapper.Contrib.Extensions;
 using Microsoft.Data.SqlClient;
 using Prescription.DAL.Entities;
+using Prescription.DAL.Interfaces;
 using System.Data;
 using System.Transactions;
 
 namespace Prescription.DAL.Repos
 {
-    public class RepoBase<T> where T : class
+    public class RepoBase<T> : IRepoBase<T> where T : class
     {
         protected IDbConnection _connection;
 
@@ -16,9 +17,9 @@ namespace Prescription.DAL.Repos
             _connection = connection;
         }
 
-        public void Delete(T entity)
+        public bool Delete(T entity)
         {
-            _connection.Delete<T>(entity);
+            return _connection.Delete<T>(entity);
         }
 
         public virtual async Task<List<T>> GetAll()
@@ -37,9 +38,9 @@ namespace Prescription.DAL.Repos
             return _connection.Insert<T>(entity);            
         }
 
-        public virtual void Update(T entity)
+        public virtual bool Update(T entity)
         {
-            _connection.Update<T>(entity);
+            return _connection.Update<T>(entity);
         }
         public virtual List<U> GetDepend<U>(long id, string foreignKey) where U : class
         {

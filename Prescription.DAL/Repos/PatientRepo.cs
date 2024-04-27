@@ -1,7 +1,7 @@
-﻿using Dapper;
-using Dapper.Contrib.Extensions;
+﻿using Dapper.Contrib.Extensions;
 using Microsoft.Data.SqlClient;
 using Prescription.DAL.Entities;
+using Prescription.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,31 +18,10 @@ namespace Prescription.DAL.Repos
         }
         public override Patient GetOne(long id)
         {
-            Patient? patient = base.GetOne(id);
-
-            if (patient == null) { throw new ArgumentOutOfRangeException("There isn't this patient"); }
-
-            patient.Addresses = GetDepend<PatientsAddress>(
-                patient.Id, "PatientId");
-            patient.CurrentAddress=GetCurrentAddress(patient.Id);
-            
-            return patient;
+            return QueriesToDb.OneAddressOwner<Patient>(_connection,id, AddressOwner.Patient);
         }
-        public override long Insert(Patient patient)
-        {
-            long id = base.Insert(patient);
-            if (patient.Addresses == null) return id;
-            foreach(PatientsAddress address in patient.Addresses)
-            {
-                address.PatientId = id;
-                _connection.Insert<PatientsAddress>(address);
-            }
-            return id;
-        }
-        public PatientsAddress GetCurrentAddress(long id)
-        {
-            return GetDepend<PatientsAddress>(id, "PatientId").First(address => address.Current);
-        }
+        
+        
        
     }
 }

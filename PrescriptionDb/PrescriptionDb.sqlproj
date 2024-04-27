@@ -75,6 +75,7 @@
     <Build Include="dbo\Tables\Permit.sql" />
     <Build Include="dbo\Tables\ServiceCathegory.sql" />
     <Build Include="auth\Tables\User.sql" />
+    <Build Include="dbo\Tables\Address.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment1.sql" />
