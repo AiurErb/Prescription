@@ -4,7 +4,7 @@ namespace Prescription.DAL.Entities
 {
     public class Address: IAddress
     {
-        public long Id { get; set; }
+        public virtual long Id { get; set; }
         public string? City { get; set; }
         public string? ZIP { get; set; }
         public string? Street { get; set; }  

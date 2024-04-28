@@ -47,15 +47,7 @@ namespace Prescription.DAL.Repos
             }, new { type = (int)type });
             return output.ToList();
         }
-        public static int ClearCurrentAddress(IDbConnection connection,long id, AddressOwner type)
-        {
-            var param = new
-            {
-                id = id,
-                type = (int)type
-            };
-            return connection.Execute(QueryClearCurrentAddress, param);
-        }
+
         public static int SetCurrentAddress(IDbConnection connection, long id, long ownerId, AddressOwner type)
         {
             var param = new

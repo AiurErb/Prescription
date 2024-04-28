@@ -12,17 +12,28 @@ namespace Prescription.DAL.Repos
 {
     public class DbAddressRepo: RepoBase<DbAddress>
     {
-        private const string QueryClearCurrentAddress = @"
-            UPDATE dbo.Address SET Current=0 WHERE OwnerId=@id AND OwnerType=@type";
-        private const string QuerySetCurrentAddress = @"
-            UPDATE dbo.Address SET Current=0 WHERE OwnerId=@ownerId AND OwnerType=@type;
-            UPDATE dbo.Address SET Current=1 WHERE Id=@id;";
+        
+        private const string QuerySetCurrentAddress = 
+            "UPDATE dbo.Address SET [Current]=0 WHERE OwnerId=@ownerId AND OwnerType=@type;"+
+            "UPDATE dbo.Address SET [Current]=1 WHERE Id=@id;";
+        
         public DbAddressRepo(IDbConnection conn) : base(conn) { }
 
         public override long Insert(DbAddress entity)
         {
-            int clear = QueriesToDb.ClearCurrentAddress(_connection, entity.OwnerId, AddressOwner.Patient);
+            int clear = ClearCurrentAddress(entity.OwnerId, entity.OwnerType);
             return base.Insert(entity);
+        }
+        public int ClearCurrentAddress(long id, int type)
+        {
+            string QueryClearCurrentAddress = @"
+            UPDATE dbo.Address SET [Current]=0 WHERE OwnerId=@id AND OwnerType=@type";
+            var param = new
+            {
+                id = id,
+                type = type
+            };
+            return _connection.Execute(QueryClearCurrentAddress, param);
         }
         public long InsertNewCurrentAddress(long ownerId, IAddress address, AddressOwner ownerType)
         {
@@ -49,27 +60,19 @@ namespace Prescription.DAL.Repos
             };
             return _connection.Execute(QuerySetCurrentAddress, param);
         }
-        public T OneAddressOwner<T>(long id, AddressOwner type)
-            where T : IAddressOwner
+        public Address GetCurrentAddress(long id, AddressOwner type)            
         {
-            string sql = $@"
-            SELECT * FROM dbo.{typeof(T)} WHERE Id=@id;
-            SELECT * FROM dbo.Address WHERE OwnerId=@id AND OwnerType=@type AND Current=1;
-            ";
-            using (var multiSet = _connection.QueryMultiple(sql, new { id = id, type = (int)type }))
-            {
-                T? addressOwner = multiSet.Read<T>().First();
-                if (addressOwner == null) { throw new ArgumentOutOfRangeException($"There isn't this {typeof(T)}"); }
-                addressOwner.CurrentAddress = multiSet.Read<Address>().First();
-                return addressOwner;
-            }
+            string sql = @"            
+            SELECT * FROM dbo.Address WHERE OwnerId=@id AND OwnerType=@type AND [Current]=1;";
+            return  _connection.QueryFirst<Address>(sql,
+                new { id = id, type = (int)type });
         }
         public List<T> AllOwnerWithCurrentAddress<T>(AddressOwner type) where T : IAddressOwner
         {
             string sql = $@"
-            SELECT * FROM dbo.{typeof(T)} owner
+            SELECT * FROM dbo.{typeof(T).Name} owner
             LEFT JOIN dbo.Address address
-            ON owner.Id=address.OwnerId AND OwnerType=@type AND Current=1";
+            ON owner.Id=address.OwnerId AND OwnerType=@type AND [Current]=1";
 
             var output = _connection.Query<T, IAddress, T>(sql, (owner, address) =>
             {

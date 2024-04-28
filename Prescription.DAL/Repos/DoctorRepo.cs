@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Dapper.Contrib.Extensions;
 using System.Data;
+using Dapper;
+using Prescription.DAL.Interfaces;
 
 namespace Prescription.DAL.Repos
 {
@@ -23,21 +25,36 @@ namespace Prescription.DAL.Repos
         //    return GetAddresses(doctor).FirstOrDefault(address => address.Current == true);
         //}
         public override async Task<List<Doctor>> GetAll()
-        {            
-            var output = await _connection.GetAllAsync<Doctor>();
+        {
+            string sql = $@"
+            SELECT * FROM dbo.Doctor owner
+            LEFT JOIN dbo.Address address
+            ON owner.Id=address.OwnerId AND OwnerType=@type AND [Current]=1";
+
+            var output = _connection.Query<Doctor, Address, Doctor>(sql, (owner, address) =>
+            {
+                owner.CurrentAddress = address;
+                return owner;
+            },
+            new { type = (int)AddressOwner.Doctor });
+            return output.ToList();
+            //var output = await _connection.GetAllAsync<Doctor>();
             //foreach (Doctor doctor in output)
             //{
             //    doctor.CurrentAddress = GetCurrentAddress(doctor);
             //}
-            return new DbAddressRepo(_connection)
-                .AllOwnerWithCurrentAddress<Doctor>(AddressOwner.Doctor);
+            //return new DbAddressRepo(_connection)
+                //.AllOwnerWithCurrentAddress<Doctor>(AddressOwner.Doctor);
         }
         public override Doctor GetOne(long id)
         {
-            //Doctor output = base.GetOne(id);
-            //output.CurrentAddress = GetCurrentAddress(output);
-            return new DbAddressRepo(_connection)
-                .OneAddressOwner<Doctor>(id,AddressOwner.Doctor);
+            //IDbTransaction transaction = _connection.BeginTransaction();
+            Doctor output = base.GetOne(id);
+            output.CurrentAddress = 
+                new DbAddressRepo(_connection)
+                .GetCurrentAddress(output.Id,AddressOwner.Doctor);
+            //transaction.Commit();
+            return output;
         }
     }
 }

@@ -48,5 +48,18 @@ namespace Prescription.DAL.Repos
             string sql = $"SELECT * FROM {tableName} WHERE {foreignKey} = @id";
             return _connection.Query<U>(sql, new { id = id }).ToList();
         }
+        public virtual async Task<List<T>> GetPage(int pageNumber, int pageSize)
+        {
+            int offset = (pageNumber - 1) * pageSize;
+            string sql = $@"
+                SELECT * FROM dbo.{typeof(T).Name} 
+                OFFSET @Offset ROWS FETCH NEXT @PageSize";
+            var param = new
+            {
+                Offset = offset,
+                pageSize = pageSize,
+            };
+            return _connection.Query<T>(sql, param).ToList();
+        }
     }
 }
