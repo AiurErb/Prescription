@@ -7,5 +7,6 @@
     [OwnerId] INT           NULL,
     [OwnerType] INT NULL,
     [Current]   BIT           NULL,
+    [Deleted] BIT NOT NULL DEFAULT 0,
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );

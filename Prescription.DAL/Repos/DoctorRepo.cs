@@ -24,10 +24,15 @@ namespace Prescription.DAL.Repos
         //{
         //    return GetAddresses(doctor).FirstOrDefault(address => address.Current == true);
         //}
-        public override async Task<List<Doctor>> GetAll()
+        public override async Task<List<Doctor>> GetAll(bool filter=true)
         {
+            string notDeletedClause = string.Empty;
+            if (filter)
+            {
+                notDeletedClause = "WHERE owner.Deleted=0";
+            }
             string sql = $@"
-            SELECT * FROM dbo.Doctor owner
+            SELECT * FROM dbo.Doctor {notDeletedClause} owner
             LEFT JOIN dbo.Address address
             ON owner.Id=address.OwnerId AND OwnerType=@type AND [Current]=1";
 

@@ -10,7 +10,7 @@ namespace Prescription.DAL.Interfaces
     public interface IRepoBase<T> where T : class
     {
         T? GetOne(long id);
-        Task<List<T>> GetAll();
+        Task<List<T>> GetAll(bool filter);
         long Insert(T item);
         bool Update(T item);
         bool Delete(T item);

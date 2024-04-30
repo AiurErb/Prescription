@@ -16,10 +16,7 @@ namespace Prescription.DAL.Repos
         public PatientRepo(IDbConnection connection) : base(connection) 
         { 
         }
-        public override Patient GetOne(long id)
-        {
-            return QueriesToDb.OneAddressOwner<Patient>(_connection,id, AddressOwner.Patient);
-        }
+        
         
         
        

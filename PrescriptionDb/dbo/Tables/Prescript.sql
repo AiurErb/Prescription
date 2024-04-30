@@ -7,6 +7,7 @@
     [Strart]      DATE           NULL,
     [End]         DATE           NULL,
     [DocumentId]        INT NULL,
+    [Deleted] BIT NOT NULL DEFAULT 0,
     PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Prescript_Doctor] FOREIGN KEY ([DoctorId]) REFERENCES [dbo].[Doctor] ([Id]),
     CONSTRAINT [FK_Prescript_Insurance] FOREIGN KEY ([InsuranceId]) REFERENCES [dbo].[Insurance] ([Id]),

@@ -2,7 +2,8 @@
 using Prescription.DAL.Repos;
 using Microsoft.Data.SqlClient;
 
-namespace Prescription.Tests.Address
+namespace Prescription.Tests.AddressTests
+
 {
     public class UnitTestAddress
     {
@@ -36,6 +37,17 @@ namespace Prescription.Tests.Address
             Assert.Equal(true, address.Current);
             address = repo.GetOne(4);
             Assert.Equal(false, address.Current);
+        }
+        [Fact]
+        public void TestInsertAndDeleteAddress()
+        {
+            throw new NotImplementedException();
+        }
+        [Fact]
+        public void TestUpdateAddress() { throw new NotImplementedException();}
+        [Fact] public void TestInsertEmptyAddress()
+        {
+            throw new NotImplementedException();
         }
     }
 }

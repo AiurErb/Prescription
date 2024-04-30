@@ -1,10 +1,11 @@
 ﻿using Dapper.Contrib.Extensions;
+using Prescription.DAL.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace Prescription.DAL.Entities
 {
     [Table("Service")]
-    public class Service
+    public class Service: ISoftDeleted
     {
         [Dapper.Contrib.Extensions.Key]
         public long Id { set; get; }
@@ -17,5 +18,6 @@ namespace Prescription.DAL.Entities
         public DateTime End { get; set; }
         public long ParentId { get; set; }
         public long ParentType { get; set; }
+        public bool Deleted { get; set; }
     }
 }

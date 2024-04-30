@@ -8,11 +8,12 @@ using Prescription.DAL.Interfaces;
 namespace Prescription.DAL.Entities
 {
     [Table("Insurance")]
-    public class Insurance : IInsurance
+    public class Insurance : ISoftDeleted
     {
         [Key]
         public long Id { get; set; }
         public string Name { get; set; }
+        public bool Deleted { get; set; }
     }
 
 

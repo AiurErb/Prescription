@@ -8,7 +8,7 @@ using System.Transactions;
 
 namespace Prescription.DAL.Repos
 {
-    public class RepoBase<T> : IRepoBase<T> where T : class
+    public class RepoBase<T> : IRepoBase<T> where T : class, ISoftDeleted
     {
         protected IDbConnection _connection;
 
@@ -22,10 +22,11 @@ namespace Prescription.DAL.Repos
             return _connection.Delete<T>(entity);
         }
 
-        public virtual async Task<List<T>> GetAll()
+        public virtual async Task<List<T>> GetAll(bool filter=true)
         {
             var output = await _connection.GetAllAsync<T>();
-            return output.ToList();
+            if (filter) return output.Where(entity => !entity.Deleted).ToList();
+            else return output.ToList();
         }
 
         public virtual T? GetOne(long id)

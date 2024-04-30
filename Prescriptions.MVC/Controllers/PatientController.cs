@@ -37,17 +37,15 @@ namespace Prescriptions.MVC.Controllers
             return View(model);
         }
         [HttpPost]
-        public IActionResult NewAddress([FromForm] PatientsAddress model)
+        public IActionResult NewAddress([FromForm] DbAddress model)
         {
             if (!ModelState.IsValid) return View(model);
-            PatientsAddressRepo addressRepo = new PatientsAddressRepo(
+            DbAddressRepo addressRepo = new DbAddressRepo(
                 new SqlConnection(_connectionString));
             long current = addressRepo.Insert(model);
-            if (addressRepo.SetCurrent(current, model.PatientId))
-            {                
-                return RedirectToAction(nameof(Details), new { id = model.PatientId });
-            }
-            else return View(model);
+            return RedirectToAction(nameof(Details), new { id = model.OwnerId });
+            
+            
         }
         private PatientRepo GetRepo()
         {

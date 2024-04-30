@@ -6,7 +6,8 @@
     [Start] date,
     [End] date,
     [ParentId] int,
-    [ParentType] INT
+    [ParentType] INT,
+    [Deleted] BIT NOT NULL DEFAULT 0,
     PRIMARY KEY CLUSTERED ([Id] ASC), 
     CONSTRAINT [FK_Service_ToTable] FOREIGN KEY ([CathegoryId]) REFERENCES [ServiceCathegory]([Id])
 );

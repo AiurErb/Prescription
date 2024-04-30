@@ -65,10 +65,8 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Doctor.sql" />
-    <Build Include="dbo\Tables\DoctorsAddress.sql" />
     <Build Include="dbo\Tables\Insurance.sql" />
     <Build Include="dbo\Tables\Patient.sql" />
-    <Build Include="dbo\Tables\PatientsAddress.sql" />
     <Build Include="dbo\Tables\Prescript.sql" />
     <Build Include="dbo\Tables\Service.sql" />
     <Build Include="dbo\Tables\Document.sql" />

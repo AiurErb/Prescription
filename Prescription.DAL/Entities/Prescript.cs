@@ -1,11 +1,12 @@
 ﻿using Dapper.Contrib.Extensions;
+using Prescription.DAL.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 
 namespace Prescription.DAL.Entities
 {
     [Table("Prescript")]
-    public class Prescript
+    public class Prescript: ISoftDeleted
     {
         [Dapper.Contrib.Extensions.Key]
         public long Id { get; set; }
@@ -20,6 +21,7 @@ namespace Prescription.DAL.Entities
         public long InsuranceId { get; set; }
         [Computed]
         public Insurance? Insurance { get; set; }
+        public bool Deleted { get; set; }
         
         public DateTime Start { get; set; }
         public DateTime End { get; set; }

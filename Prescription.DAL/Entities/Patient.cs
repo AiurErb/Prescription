@@ -6,7 +6,7 @@ using KeyAttribute = Dapper.Contrib.Extensions.KeyAttribute;
 namespace Prescription.DAL.Entities
 {
     [Table("Patient")]
-    public class Patient: IAddressOwner
+    public class Patient: IAddressOwner, ISoftDeleted
     {
         [Key]
         public long Id { get; set; }
@@ -16,8 +16,7 @@ namespace Prescription.DAL.Entities
         [DisplayFormat(DataFormatString = "{0:d}")]
         [Display(Name="Geburtstag")]
         public DateTime Birthday { get; set; }
-        //[Computed]
-        //public List<PatientsAddress>? Addresses { get; set; }
+        public bool Deleted { get; set; }
         [Computed]
         public IAddress? CurrentAddress { get; set; }
 
