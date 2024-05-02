@@ -8,6 +8,6 @@ namespace Prescription.DAL.Interfaces
 {
     public interface IPhones
     {
-        List<string> Phones { get;set }
+        List<string> Phones { get; set; }
     }
 }

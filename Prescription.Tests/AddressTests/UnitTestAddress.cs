@@ -41,13 +41,61 @@ namespace Prescription.Tests.AddressTests
         [Fact]
         public void TestInsertAndDeleteAddress()
         {
-            throw new NotImplementedException();
+            DbAddressRepo repo = new DbAddressRepo(connection);
+            DbAddress newAddress = new DbAddress
+            {
+                City = "Leverkusen",
+                ZIP = "53456",
+                Street = "Am Papa",
+                Haus = "154",
+                OwnerId = 2,
+                OwnerType = (int)AddressOwner.Doctor,
+                Current = true
+            };
+            long id = repo.Insert(newAddress);
+            DbAddress retrivedAddress = repo.GetOne(id);
+            Assert.Equal("154", retrivedAddress.Haus);
+            repo.Delete(retrivedAddress);
+            retrivedAddress = repo.GetOne(id);
+            Assert.Null(retrivedAddress);
         }
         [Fact]
-        public void TestUpdateAddress() { throw new NotImplementedException();}
+        public void TestUpdateAddress() 
+        {
+            DbAddressRepo repo = new DbAddressRepo(connection);
+            DbAddress newAddress = new DbAddress
+            {
+                City = "Leverkusen",
+                ZIP = "53456",
+                Street = "Am Papa",
+                Haus = "154",
+                OwnerId = 2,
+                OwnerType = (int)AddressOwner.Doctor,
+                Current = true
+            };
+            long id = repo.Insert(newAddress);
+            DbAddress retrivedAddress = repo.GetOne(id);
+            Assert.Equal("154", retrivedAddress.Haus);
+
+            retrivedAddress.City = "Köln";
+            repo.Update(retrivedAddress);
+            
+            DbAddress updatedAddress = repo.GetOne(id);
+            Assert.Equal("Köln", updatedAddress.City);
+
+            repo.Delete(updatedAddress);
+            updatedAddress = repo.GetOne(id);
+            Assert.Null(updatedAddress);
+        }
         [Fact] public void TestInsertEmptyAddress()
         {
-            throw new NotImplementedException();
+            DbAddress insertedAddress = new DbAddress();
+            DbAddressRepo repo = new DbAddressRepo(connection);
+
+            long id = repo.Insert(insertedAddress);
+
+            DbAddress emptyAddress = repo.GetOne(id);
+            Assert.NotNull(emptyAddress);
         }
     }
 }
