@@ -12,16 +12,20 @@ namespace Prescription.DAL.Repos
 {
     public class DbAddressRepo: RepoBase<DbAddress>
     {
-        
-        private const string QuerySetCurrentAddress = 
-            "UPDATE dbo.Address SET [Current]=0 WHERE OwnerId=@ownerId AND OwnerType=@type;"+
-            "UPDATE dbo.Address SET [Current]=1 WHERE Id=@id;";
+        private readonly Address UnkownAddress = new Address
+        {
+            City = "Unbekannt",
+            ZIP = "00000",
+            Street = "Unbekannt",
+            Haus = "00"
+        };
         
         public DbAddressRepo(IDbConnection conn) : base(conn) { }
 
         public override long Insert(DbAddress entity)
         {
             int clear = ClearCurrentAddress(entity.OwnerId, entity.OwnerType);
+            entity.Current = true;
             return base.Insert(entity);
         }
         public int ClearCurrentAddress(long id, int type)
@@ -52,6 +56,9 @@ namespace Prescription.DAL.Repos
         }
         public int SetCurrentAddress(long id, long ownerId, AddressOwner type)
         {
+            string QuerySetCurrentAddress =
+            "UPDATE dbo.Address SET [Current]=0 WHERE OwnerId=@ownerId AND OwnerType=@type;" +
+            "UPDATE dbo.Address SET [Current]=1 WHERE Id=@id;";
             var param = new
             {
                 id = id,
@@ -64,8 +71,9 @@ namespace Prescription.DAL.Repos
         {
             string sql = @"            
             SELECT * FROM dbo.Address WHERE OwnerId=@id AND OwnerType=@type AND [Current]=1;";
-            return  _connection.QueryFirst<Address>(sql,
-                new { id = id, type = (int)type });
+
+            return  _connection.QueryFirstOrDefault<Address>(sql, new { id = id, type = (int)type })
+                ?? UnkownAddress;
         }
         public List<T> AllOwnerWithCurrentAddress<T>(AddressOwner type) where T : IAddressOwner
         {

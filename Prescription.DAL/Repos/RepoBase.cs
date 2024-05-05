@@ -53,14 +53,17 @@ namespace Prescription.DAL.Repos
         {
             int offset = (pageNumber - 1) * pageSize;
             string sql = $@"
-                SELECT * FROM dbo.{typeof(T).Name} 
-                OFFSET @Offset ROWS FETCH NEXT @PageSize";
+                SELECT * FROM dbo.{typeof(T).Name}
+                ORDER BY Id 
+                OFFSET {offset} ROWS
+                FETCH NEXT {pageSize} ROWS ONLY";
             var param = new
             {
                 Offset = offset,
-                pageSize = pageSize,
+                PageSize = pageSize,
             };
-            return _connection.Query<T>(sql, param).ToList();
+            var output = await _connection.QueryAsync<T>(sql, param);
+            return output.ToList();
         }
     }
 }

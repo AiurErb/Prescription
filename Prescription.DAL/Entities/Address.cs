@@ -13,7 +13,7 @@ namespace Prescription.DAL.Entities
 
         public override string ToString()
         {
-            return $"{Street} {Haus}, {ZIP} {City}";
+            return $"{Street} {Haus}, {ZIP} {City}" ?? "Unbekannt";
         }
     }
 }

@@ -15,9 +15,9 @@ namespace Prescriptions.MVC.Controllers
             if (_connectionString==string.Empty)
                 throw new Exception(message:"There isn't valid connection string");
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery] int page=1)
         {
-            var model = await GetRepo().GetAll();
+            var model = await GetRepo().GetPage(page,5);
             return View(model);
         }
         [HttpGet]
